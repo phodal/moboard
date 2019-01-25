@@ -35,8 +35,8 @@ interact('.draggable')
     }
   });
 
-interact('.dropzone').dropzone({
-  accept: '#yes-drop',
+interact('.pipe').dropzone({
+  accept: '.yes-drop',
   overlap: 0.75,
 
   ondropactivate: function (event) {
