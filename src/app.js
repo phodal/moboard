@@ -7,7 +7,7 @@ interact('.draggable')
     restrict: {
       restriction: "parent",
       endOnly: true,
-      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+      elementRect: {top: 0, left: 0, bottom: 1, right: 1}
     },
     // enable autoScroll
     autoScroll: true,
@@ -26,7 +26,7 @@ interact('.draggable')
     }
   });
 
-function dragMoveListener (event) {
+function dragMoveListener(event) {
   var target = event.target,
     // keep the dragged position in the data-x/data-y attributes
     x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
@@ -44,3 +44,25 @@ function dragMoveListener (event) {
 
 // this is used later in the resizing and gesture demos
 window.dragMoveListener = dragMoveListener;
+
+
+function initEditor(target) {
+  var editor = new MediumEditor(target, {
+    placeholder: false
+  });
+  editor.subscribe('editableInput', function (event, editable) {
+    console.log(event);
+  });
+}
+
+function init() {
+  var moboardElements = document.getElementsByClassName('moboard-element');
+  for (var i = 0; i < moboardElements.length; i++) {
+    var element = moboardElements[i];
+    element.addEventListener('click', function (event) {
+      initEditor(event.target);
+    });
+  }
+}
+
+init();
