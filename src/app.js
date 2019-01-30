@@ -1,3 +1,12 @@
+var elementData = [
+  {id: 1, title: 'Drag 1', class: 'className', x: 0, y: 0},
+  {id: 2, title: '2 Drag', class: 'className', x: 50, y: 50},
+  {id: 3, title: 'Drag 3', class: 'className', x: 120, y: 120},
+];
+var storageKey = 'moboard.drag';
+
+window.elementData = elementData;
+
 function dragMoveListener(event) {
   var target = event.target,
     x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
@@ -25,17 +34,21 @@ interact('.draggable')
 
     onmove: dragMoveListener,
     onend: function (event) {
-      console.log(event, event.pageX, event.pageY);
+      window.elementData.filter(item => {
+        if (event.target.id === generateId(item.id)) {
+          item.x = event.pageX;
+          item.y = event.pageY;
+        }
+        return item;
+      });
 
-      var textEl = event.target.querySelector('p');
-
-      textEl && (textEl.textContent =
-        'moved a distance of '
-        + (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
-        Math.pow(event.pageY - event.y0, 2) | 0))
-          .toFixed(2) + 'px');
+      updateElementData();
     }
   });
+
+function updateElementData() {
+  localStorage.setItem(storageKey, JSON.stringify(window.elementData));
+}
 
 interact('.pipe').dropzone({
   accept: '.yes-drop',
@@ -91,16 +104,10 @@ function generateId(pipeData) {
   return 'sticker_' + pipeData;
 }
 
-function init() {
-  var elementData = [
-    {id: 1, title: 'Drag 1', class: 'className', x: 0, y: 0},
-    {id: 2, title: '2 Drag', class: 'className', x: 50, y: 50},
-    {id: 3, title: 'Drag 3', class: 'className', x: 120, y: 120},
-  ];
-
+function initElements(items) {
   var elements = '';
-  for (var i = 0; i < elementData.length; i++) {
-    var element = elementData[i];
+  for (var i = 0; i < items.length; i++) {
+    var element = items[i];
     var id = generateId(element.id);
     var x = element.x;
     var y = element.y;
@@ -110,6 +117,15 @@ function init() {
   }
 
   document.getElementById('stickers').innerHTML = elements;
+}
+
+function init() {
+  var items = localStorage.getItem(storageKey);
+  if (items) {
+    window.elementData = JSON.parse(items);
+  }
+  initElements(window.elementData);
+  initEditors();
 }
 
 init();
