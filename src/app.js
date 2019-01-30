@@ -36,8 +36,8 @@ interact('.draggable')
     onend: function (event) {
       window.elementData.filter(item => {
         if (event.target.id === generateId(item.id)) {
-          item.x = event.pageX;
-          item.y = event.pageY;
+          item.x = event.pageX - event.x0;
+          item.y = event.pageY - event.y0;
         }
         return item;
       });
