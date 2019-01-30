@@ -41,6 +41,49 @@ interact('.draggable')
 
       updateElementData();
     }
+  })
+  .resizable({
+    edges: {left: true, right: true, bottom: true, top: true},
+    restrictEdges: {
+      outer: 'parent',
+      endOnly: true,
+    },
+
+    restrictSize: {
+      min: {width: 100, height: 50},
+    },
+
+    inertia: true,
+  })
+  .on('resizemove', function (event) {
+    var target = event.target,
+      x = (parseFloat(target.getAttribute('data-x')) || 0),
+      y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+    // update the element's style
+    target.style.width = event.rect.width + 'px';
+    target.style.height = event.rect.height + 'px';
+
+    // translate when resizing from top or left edges
+    x += event.deltaRect.left;
+    y += event.deltaRect.top;
+
+    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+
+    window.elementData.filter(item => {
+      if (event.target.id === generateId(item.id)) {
+        item.width = event.rect.width;
+        item.height = event.rect.height;
+        item.x = x;
+        item.y = y;
+      }
+      return item;
+    });
+
+    updateElementData();
   });
 
 function updateElementData() {
@@ -116,7 +159,7 @@ function initElements(items) {
     var x = element.x;
     var y = element.y;
     var currentHtml = `<div id='${id}' data-x='${x}' data-y='${y}' 
-  style='transform: translate(${x}px, ${y}px);background-color:${element.color}'
+  style='transform: translate(${x}px, ${y}px);background-color:${element.color};height:${element.height};width:${element.width}'
  class='draggable moboard-element ${element.class}'>${element.value}</div>`;
 
     elements = elements + currentHtml;
