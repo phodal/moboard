@@ -1,7 +1,7 @@
 var elementData = [
-  {id: 1, value: 'Drag 1', class: 'className', x: 0, y: 0},
-  {id: 2, value: '2 Drag', class: 'className', x: 50, y: 50},
-  {id: 3, value: 'Drag 3', class: 'className', x: 120, y: 120},
+  {id: 1, value: 'Drag 1', class: 'className', x: 0, y: 0, color: '#dddddd'},
+  {id: 2, value: '2 Drag', class: 'className', x: 50, y: 50, color: '#222222'},
+  {id: 3, value: 'Drag 3', class: 'className', x: 120, y: 120, color: '#29e'},
 ];
 var storageKey = 'moboard.drag';
 
@@ -115,7 +115,9 @@ function initElements(items) {
     var id = generateId(element.id);
     var x = element.x;
     var y = element.y;
-    var currentHtml = `<div id='${id}' data-x='${x}' data-y='${y}' style='transform: translate(${x}px, ${y}px)' class='draggable moboard-element ${element.class}'>${element.value}</div>`;
+    var currentHtml = `<div id='${id}' data-x='${x}' data-y='${y}' 
+  style='transform: translate(${x}px, ${y}px);background-color:${element.color}'
+ class='draggable moboard-element ${element.class}'>${element.value}</div>`;
 
     elements = elements + currentHtml;
   }
