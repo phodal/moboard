@@ -8,13 +8,11 @@ var storageKey = 'moboard.drag';
 window.elementData = elementData;
 
 function dragMoveListener(event) {
-  var target = event.target,
-    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-    y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+  var target = event.target;
+  var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+  var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-  target.style.webkitTransform =
-    target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px)';
+  target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
 
   target.setAttribute('data-x', x);
   target.setAttribute('data-y', y);
@@ -31,13 +29,12 @@ interact('.draggable')
       elementRect: {top: 0, left: 0, bottom: 1, right: 1}
     },
     autoScroll: true,
-
     onmove: dragMoveListener,
     onend: function (event) {
       window.elementData.filter(item => {
         if (event.target.id === generateId(item.id)) {
-          item.x = event.pageX - event.x0;
-          item.y = event.pageY - event.y0;
+          item.x = event.target.dataset.x;
+          item.y = event.target.dataset.y;
         }
         return item;
       });
