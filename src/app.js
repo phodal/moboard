@@ -1,7 +1,7 @@
 var elementData = [
-  {id: 1, title: 'Drag 1', class: 'className', x: 0, y: 0},
-  {id: 2, title: '2 Drag', class: 'className', x: 50, y: 50},
-  {id: 3, title: 'Drag 3', class: 'className', x: 120, y: 120},
+  {id: 1, value: 'Drag 1', class: 'className', x: 0, y: 0},
+  {id: 2, value: '2 Drag', class: 'className', x: 50, y: 50},
+  {id: 3, value: 'Drag 3', class: 'className', x: 120, y: 120},
 ];
 var storageKey = 'moboard.drag';
 
@@ -86,7 +86,14 @@ function initEditor(target) {
     placeholder: false
   });
   editor.subscribe('editableInput', function (event, editable) {
-    console.log(event);
+    window.elementData.filter(item => {
+      if (event.target.id === generateId(item.id)) {
+        item.value = event.target.textContent;
+      }
+      return item;
+    });
+
+    updateElementData();
   });
 }
 
@@ -111,7 +118,7 @@ function initElements(items) {
     var id = generateId(element.id);
     var x = element.x;
     var y = element.y;
-    var currentHtml = `<div id='${id}' data-x='${x}' data-y='${y}' style='transform: translate(${x}px, ${y}px)' class='draggable moboard-element ${element.class}'>${element.title}</div>`;
+    var currentHtml = `<div id='${id}' data-x='${x}' data-y='${y}' style='transform: translate(${x}px, ${y}px)' class='draggable moboard-element ${element.class}'>${element.value}</div>`;
 
     elements = elements + currentHtml;
   }
