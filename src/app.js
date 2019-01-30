@@ -25,6 +25,8 @@ interact('.draggable')
 
     onmove: dragMoveListener,
     onend: function (event) {
+      console.log(event, event.pageX, event.pageY);
+
       var textEl = event.target.querySelector('p');
 
       textEl && (textEl.textContent =
@@ -75,7 +77,7 @@ function initEditor(target) {
   });
 }
 
-function init() {
+function initEditors() {
   var moboardElements = document.getElementsByClassName('moboard-element');
   for (var i = 0; i < moboardElements.length; i++) {
     var element = moboardElements[i];
@@ -83,6 +85,31 @@ function init() {
       initEditor(event.target);
     });
   }
+}
+
+function generateId(pipeData) {
+  return 'sticker_' + pipeData;
+}
+
+function init() {
+  var elementData = [
+    {id: 1, title: 'Drag 1', class: 'className', x: 0, y: 0},
+    {id: 2, title: '2 Drag', class: 'className', x: 50, y: 50},
+    {id: 3, title: 'Drag 3', class: 'className', x: 120, y: 120},
+  ];
+
+  var elements = '';
+  for (var i = 0; i < elementData.length; i++) {
+    var element = elementData[i];
+    var id = generateId(element.id);
+    var x = element.x;
+    var y = element.y;
+    var currentHtml = `<div id='${id}' data-x='${x}' data-y='${y}' style='transform: translate(${x}px, ${y}px)' class='draggable moboard-element ${element.class}'>${element.title}</div>`;
+
+    elements = elements + currentHtml;
+  }
+
+  document.getElementById('stickers').innerHTML = elements;
 }
 
 init();
