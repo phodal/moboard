@@ -24,9 +24,9 @@ interact('.draggable')
   .draggable({
     inertia: true,
     restrict: {
-      restriction: "parent",
+      // restriction: "parent",
       endOnly: true,
-      elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+      elementRect: {top: 0, left: 0, bottom: 0, right: 0}
     },
     autoScroll: true,
     onmove: dragMoveListener,
