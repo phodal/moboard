@@ -30,10 +30,39 @@ html, body {
   top: 0;
   z-index: -1;
 
-  background-color: #ccc;
+  border-left: #b3b3b1 1px solid;
   padding: 10px;
   width: 50vw;
   min-height: 100vh;
+  transition: background-color 0.3s;
+  text-align: right;
+}
+
+.pipe p {
+  float: right;
+  position: absolute;
+  top: calc(50% - 2em);
+  right: 1em;
+}
+
+.pipe2 p {
+  float: right;
+  position: absolute;
+  top: 1em;
+  right: calc(50% + 1em);
+}
+
+
+.pipe2 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -2;
+
+  border-bottom: #b3b3b1 1px solid;
+  padding: 10px;
+  width: 100vw;
+  min-height: 50vh;
   transition: background-color 0.3s;
 }
 
