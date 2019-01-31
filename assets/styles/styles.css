@@ -95,3 +95,7 @@ html, body {
   color: #000;
   background-color: #4e4;
 }
+
+.medium-editor-element:focus {
+  outline: 0;
+}
